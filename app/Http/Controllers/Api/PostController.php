@@ -2,39 +2,22 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
-use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
 use App\Interfaces\PostRepositoryInterface;
 use Illuminate\Http\Response;
-use App\Repositories\PostRepository;
 
 class PostController extends Controller
 {
 
     private $postRepository;
 
-    public function __construct(PostRepository $postRepository)
+    public function __construct(PostRepositoryInterface $postRepository)
     {
         $this->middleware('auth:api');
         $this->postRepository = $postRepository;
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $posts = $this->postRepository->getAllPosts();
-
-        $postsCollection = new PostCollection($posts);
-
-        return $postsCollection->response();
     }
 
     /**

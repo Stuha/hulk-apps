@@ -26,4 +26,4 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::apiResource('/movie', MovieController::class)->only('index', 'show');
-Route::apiResource('/post', PostController::class);
+Route::apiResource('/post', PostController::class)->except('index');
