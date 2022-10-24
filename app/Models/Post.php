@@ -9,12 +9,12 @@ class Post extends Model
 {
     use HasFactory;
 
-    public function posts()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function movies()
+    public function movie()
     {
         return $this->belongsTo(Movie::class);
     }
