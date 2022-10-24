@@ -7,6 +7,8 @@ use App\Interfaces\MovieRepositoryInterface;
 use App\Repositories\MovieRepository;
 use App\Interfaces\PostRepositoryInterface;
 use App\Repositories\PostRepository;
+use App\Interfaces\FavoriteRepositoryInterface;
+use App\Repositories\FavoriteRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,7 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->bind(MovieRepositoryInterface::class, MovieRepository::class);
         $this->app->bind(PostRepositoryInterface::class, PostRepository::class);
+        $this->app->bind(FavoriteRepositoryInterface::class, FavoriteRepository::class);
     }
 
     /**
