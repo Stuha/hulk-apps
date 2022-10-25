@@ -7,10 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\FavoriteCollection;
 use App\Interfaces\FavoriteRepositoryInterface;
 use App\Interfaces\MovieRepositoryInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Maize\Markable\Models\Favorite;
+
 
 class FavoriteController extends Controller
 {
@@ -23,12 +24,7 @@ class FavoriteController extends Controller
         $this->movieRepository = $movieRepository;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index():JsonResponse
     {
         $favoritesCollection = new FavoriteCollection(Cache::remember('favorites', 300, function(){
             return $this->favoriteRepository->getAllFavorites();
@@ -37,13 +33,7 @@ class FavoriteController extends Controller
         return $favoritesCollection->response();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request):JsonResponse
     {
         $movie = $this->movieRepository->getMovieById($request->id);
         $user = Auth::user();
@@ -51,13 +41,7 @@ class FavoriteController extends Controller
         return response()->json(['data' => $this->favoriteRepository->createFavorite($movie, $user)], Response::HTTP_CREATED);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(int $id):JsonResponse
     {
         $movie = $this->movieRepository->getMovieById($id);
         $user = Auth::user();

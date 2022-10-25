@@ -7,12 +7,13 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
 use App\Interfaces\PostRepositoryInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class PostController extends Controller
 {
 
-    private $postRepository;
+    private PostRepositoryInterface $postRepository;
 
     public function __construct(PostRepositoryInterface $postRepository)
     {
@@ -20,13 +21,7 @@ class PostController extends Controller
         $this->postRepository = $postRepository;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StorePostRequest $request)
+    public function store(StorePostRequest $request):JsonResponse
     {
         $post = [];
         $post['content'] = $request->content;
@@ -37,27 +32,14 @@ class PostController extends Controller
         return response()->json(['data' => $this->postRepository->createPost($post)], Response::HTTP_CREATED);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(int $id):PostResource
     {
         $post = $this->postRepository->getPostById($id);
 
         return new PostResource($post);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdatePostRequest $request, $id)
+    public function update(UpdatePostRequest $request, int $id):PostResource
     {
         $updateDetails = [];
         $updateDetails['content'] = $request->content;
@@ -67,13 +49,7 @@ class PostController extends Controller
         return new PostResource($updatedPost);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(int $id):JsonResponse
     {
         $this->postRepository->deletePost($id);
 

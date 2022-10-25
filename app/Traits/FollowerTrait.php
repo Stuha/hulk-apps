@@ -97,9 +97,11 @@ trait FollowerTrait
             $followable = $resolver($followable);
 
             if ($followable && in_array(FollowableTrait::class, class_uses($followable))) {
+                
                 $item = $followed->where('followable_id', $followable->getKey())
                                  ->where('followable_type', $followable->getMorphClass())
                                  ->first();
+
                 $followable->setAttribute('followed_at', $item ? $item->created_at : null);
             }
         });

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\FollowCollection;
 use App\Interfaces\MovieRepositoryInterface;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,12 +21,7 @@ class FollowController extends Controller
         $this->movieRepository = $movieRepository;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index():JsonResponse
     {
         $user = User::find(Auth::user()->id);
         $followings = $user->followings;
@@ -35,13 +31,7 @@ class FollowController extends Controller
         return $followingsCollection->response();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request):JsonResponse
     {
         $movie = $this->movieRepository->getMovieById($request->id);
         $user = User::find(Auth::user()->id);
@@ -51,13 +41,7 @@ class FollowController extends Controller
         return response()->json(['follow' => 'true'], Response::HTTP_OK);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(int $id):JsonResponse
     {
         $movie = $this->movieRepository->getMovieById($id);
         $user = User::find(Auth::user()->id);
