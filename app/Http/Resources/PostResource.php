@@ -19,6 +19,7 @@ class PostResource extends JsonResource
             'id' => $this->id,
             'parentId' => $this->parent_Id,
             'user' => $this->user->name,
+            'content' => $this->content,
             'movieId' => $this->movie_id,
             'createdAt' => Carbon::parse($this->created_at)->toDateTimeString(),
             'updatedAt' => Carbon::parse($this->updated_at)->toDateTimeString()

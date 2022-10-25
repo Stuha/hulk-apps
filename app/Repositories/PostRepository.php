@@ -4,15 +4,9 @@ namespace App\Repositories;
 
 use App\Interfaces\PostRepositoryInterface;
 use App\Models\Post;
-use Illuminate\Database\Eloquent\Collection;
 
 class PostRepository implements PostRepositoryInterface
 {
-    public function getAllPosts():Collection
-    {
-        return Post::all();
-    }
-
     public function getPostById(int $id):Post
     {
         return Post::findOrFail($id);
