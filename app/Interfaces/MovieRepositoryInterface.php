@@ -3,10 +3,10 @@
 namespace App\Interfaces;
 
 use App\Models\Movie;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface MovieRepositoryInterface
 {
-    public function getAllMovies():Collection;
+    public function getAllMovies():LengthAwarePaginator;
     public function getMovieById(int $movieId):Movie;
 }

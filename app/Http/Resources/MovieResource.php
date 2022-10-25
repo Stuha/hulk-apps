@@ -16,9 +16,12 @@ class MovieResource extends JsonResource
      */
     public function toArray($request)
     {
+        $posts = Movie::find($this->id)->posts;
+        $postCollection = new PostCollection($posts);
+
         return [
             'name' => $this->name,
-            'posts' => new PostCollection(Movie::find($this->id)->posts),
+            'posts' => $postCollection->paginate(25),
         ];
     }
 }

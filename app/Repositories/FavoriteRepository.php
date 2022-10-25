@@ -7,15 +7,16 @@ use Maize\Markable\Models\Favorite;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Movie;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 
 class FavoriteRepository implements FavoriteRepositoryInterface
 {
-    public function getAllFavorites():Collection
+    public function getAllFavorites():LengthAwarePaginator
     {
         return Movie::whereHasFavorite(
-            auth()->user(),
-        )->get();
+            Auth::user(),
+        )->paginate(25);
     }
 
     public function createFavorite(Movie $movie, User $user):Favorite
