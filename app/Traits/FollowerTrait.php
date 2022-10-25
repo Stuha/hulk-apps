@@ -3,10 +3,8 @@
 namespace App\Traits;
 
 use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Pagination\CursorPaginator;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -51,29 +49,7 @@ trait FollowerTrait
         if (!in_array(FollowableTrait::class, class_uses($followable))) {
             throw new InvalidArgumentException('The followable model must use the Followable trait.');
         }
-
-        $this->followings()->of($followable)->get()->each->delete();
-    }
-
-    public function toggleFollow(Model $followable): void
-    {
-        $this->isFollowing($followable) ? $this->unfollow($followable) : $this->follow($followable);
-    }
-
-    public function isFollowing(Model $followable): bool
-    {
-        if (!in_array(FollowableTrait::class, class_uses($followable))) {
-            throw new InvalidArgumentException('The followable model must use the Followable trait.');
-        }
-
-        if ($this->relationLoaded('followings')) {
-            return $this->followings
-                ->where('followable_id', $followable->getKey())
-                ->where('followable_type', $followable->getMorphClass())
-                ->isNotEmpty();
-        }
-
-        return $this->followings()->of($followable)->accepted()->exists();
+        $this->followings()->delete($followable->id);
     }
 
     public function followings(): HasMany

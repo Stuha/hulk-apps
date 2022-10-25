@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Str;
 use App\Events\Followed;
 use App\Events\Unfollowed;
@@ -67,20 +65,4 @@ class Followable extends Model
     {
         return $this->user();
     }
-
-    // public function scopeWithType(Builder $query, string $type): Builder
-    // {
-    //     return $query->where('followable_type', app($type)->getMorphClass());
-    // }
-
-    // public function scopeOf(Builder $query, Model $model): Builder
-    // {
-    //     return $query->where('followable_type', $model->getMorphClass())
-    //                 ->where('followable_id', $model->getKey());
-    // }
-
-    // public function scopeFollowedBy(Builder $query, Model $follower): Builder
-    // {
-    //     return $query->where(config('follow.user_foreign_key', 'user_id'), $follower->getKey());
-    // }
 }
