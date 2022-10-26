@@ -29,19 +29,19 @@ use function iterator_to_array;
 trait FollowerTrait
 {
     #[ArrayShape(['pending' => "mixed"])]
-    public function follow(Model $followable): array
+    public function follow(Model $followable): Model
     {
         if (!in_array(FollowableTrait::class, class_uses($followable))) {
             throw new InvalidArgumentException('The followable model must use the Followable trait.');
         }
 
-        $this->followings()->updateOrCreate([
+        $followable = $this->followings()->updateOrCreate([
             'followable_id' => $followable->getKey(),
             'followable_type' => $followable->getMorphClass(),
             'followed_at' => Carbon::now()
         ]);
 
-        return [];
+        return $followable;
     }
 
     public function unfollow(Model $followable): void
