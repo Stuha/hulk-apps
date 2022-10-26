@@ -5,17 +5,17 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FollowCollection;
-use App\Interfaces\MovieRepositoryInterface;
 use App\Models\User;
+use App\Repositories\MovieRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class FollowController extends Controller
 {
-    private MovieRepositoryInterface $movieRepository;
+    private MovieRepository $movieRepository;
 
-    public function __construct(MovieRepositoryInterface $movieRepository)
+    public function __construct(MovieRepository $movieRepository)
     {
         $this->middleware('auth:api');
         $this->movieRepository = $movieRepository;
@@ -33,21 +33,23 @@ class FollowController extends Controller
 
     public function store(Request $request):JsonResponse
     {
-        $movie = $this->movieRepository->getMovieById($request->id);
+        $movie = $this->movieRepository->findById($request->id);
         $user = User::find(Auth::user()->id);
 
-        $user->follow($movie);
+        $followMovie = $user->follow($movie);
+        $result = $this->httpResponse->setHttpResponseCreatedOneInstance($followMovie);
 
-        return response()->json(['follow' => 'true'], Response::HTTP_OK);
+        return response()->json($result->response, $result->http_status);
     }
 
     public function destroy(int $id):JsonResponse
     {
-        $movie = $this->movieRepository->getMovieById($id);
+        $movie = $this->movieRepository->findById($id);
         $user = User::find(Auth::user()->id);
 
         $user->unfollow($movie);
+        $result = $this->httpResponse->setHttpResponseItemDeleted();
 
-        return response()->json(['unfollow' => 'true'], Response::HTTP_OK);
+        return response()->json($result->response, $result->http_status);
     }
 }

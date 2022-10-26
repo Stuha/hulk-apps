@@ -40,7 +40,10 @@ class FavoriteController extends Controller
         $movie = $this->movieRepository->findById($request->id);
         $user = Auth::user();
 
-        return response()->json(['data' => $this->favoriteRepository->createFavorite($movie, $user)], Response::HTTP_CREATED);
+        $favoiriteMovie =  $this->favoriteRepository->createFavorite($movie, $user);
+        $result = $this->httpResponse->setHttpResponseCreatedOneInstance($favoiriteMovie);
+
+        return response()->json($result->response, $result->http_status);
     }
 
     public function destroy(int $id):JsonResponse
@@ -48,6 +51,9 @@ class FavoriteController extends Controller
         $movie = $this->movieRepository->findById($id);
         $user = Auth::user();
 
-        return response()->json(['data' => $this->favoriteRepository->deleteFavorite($movie, $user)], Response::HTTP_OK);
+        $this->favoriteRepository->deleteFavorite($movie, $user);
+        $result = $this->httpResponse->setHttpResponseItemDeleted();
+
+        return response()->json($result->response, $result->http_status);
     }
 }
