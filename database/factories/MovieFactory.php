@@ -18,6 +18,9 @@ class MovieFactory extends Factory
     {
         return [
             'name' => ucwords($this->faker->words(2, true)),
+            'director_name' => $this->faker->name(),
+            'year' => $this->faker->year(),
+            'slug' => $this->faker->slug()
         ];
     }
 }
