@@ -3,7 +3,6 @@
 use App\Http\Controllers\Api\FollowController;
 use App\Http\Controllers\Api\MovieController;
 use App\Http\Controllers\Api\PostController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FavoriteController;
@@ -27,7 +26,7 @@ Route::controller(AuthController::class)->group(function () {
 
 });
 
-Route::apiResource('/movie', MovieController::class)->only('index', 'show');
+Route::apiResource('/movie', MovieController::class)->parameters(['movie' => 'slug']);
 Route::apiResource('/post', PostController::class)->except('index');
 Route::apiResource('/follow', FollowController::class)->except('show');
 Route::apiResource('/favorite', FavoriteController::class)->only('index', 'store', 'destroy');
