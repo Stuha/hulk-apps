@@ -2,28 +2,12 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\PostRepositoryInterface;
 use App\Models\Post;
 
-class PostRepository implements PostRepositoryInterface
+class PostRepository extends BaseRepository 
 {
-    public function getPostById(int $id):Post
-    {
-        return Post::findOrFail($id);
-    }
 
-    public function deletePost(int $id):void
-    {
-        Post::destroy($id);
-    }
-
-    public function createPost(array $movieDetails):Post
-    {
-        return Post::create($movieDetails);
-    }
-
-    public function updatePost(int $id, array $newData):Post
-    {
-        return Post::whereId($id)->update($newData)->get();
+    public function __construct(Post $model){
+        parent::__construct($model);
     }
 }

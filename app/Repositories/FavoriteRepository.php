@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Interfaces\FavoriteRepositoryInterface;
 use Maize\Markable\Models\Favorite;
-use Illuminate\Database\Eloquent\Collection;
 use App\Models\Movie;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Pagination\LengthAwarePaginator;

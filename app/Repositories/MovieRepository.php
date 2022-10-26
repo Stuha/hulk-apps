@@ -2,11 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\MovieRepositoryInterface;
 use App\Models\Movie;
 use App\Repositories\BaseRepository;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class MovieRepository extends BaseRepository
