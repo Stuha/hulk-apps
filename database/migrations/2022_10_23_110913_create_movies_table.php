@@ -15,7 +15,10 @@ return new class extends Migration
     {
         Schema::create('movies', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->index();
+            $table->year('year');
+            $table->string('director_name')->index();
+            $table->string('slug')->unique()->index();
             $table->timestamps();
         });
     }

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer('parent_id')->nullable();
             $table->text('content');
             $table->integer('user_id');
-            // $table->foreign('user_id')->references('id')->on('users');
             $table->integer('movie_id');
             $table->timestamps();
         });
