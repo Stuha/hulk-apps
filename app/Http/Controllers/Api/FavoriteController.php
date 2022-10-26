@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\FavoriteCollection;
 use App\Interfaces\FavoriteRepositoryInterface;
 use App\Repositories\MovieRepository;
+use App\Services\HttpResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -17,13 +18,16 @@ class FavoriteController extends Controller
 {
     private FavoriteRepositoryInterface $favoriteRepository;
     private MovieRepository $movieRepository;
+    private HttpResponse $httpResponse;
 
-
-    public function __construct(FavoriteRepositoryInterface $favoriteRepository, MovieRepository $movieRepository)
-    {
+    public function __construct(FavoriteRepositoryInterface $favoriteRepository, 
+                                MovieRepository $movieRepository,
+                                HttpResponse $httpResponse
+    ){
         $this->middleware('auth:api');
         $this->favoriteRepository = $favoriteRepository;
         $this->movieRepository = $movieRepository;
+        $this->httpResponse = $httpResponse;
     }
 
     public function index():JsonResponse
