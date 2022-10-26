@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
                     
                     return (new LengthAwarePaginator(
                         $this->forPage($page, $perPage), 2, $perPage, $page, $options))
-                            ->withPath('test');
+                            ->withPath(url()->current());
                 }
             );
         }

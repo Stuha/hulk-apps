@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Movie;
 use Carbon\Carbon;
 
 class FollowResource extends JsonResource
@@ -18,7 +17,7 @@ class FollowResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'movieTitle' => Movie::find($this->followable_id)->name,
+            'movieTitle' => $this->followable->name,
             'followedAt' => Carbon::parse($this->followed_at)->toDateTimeString()
         ];
     }

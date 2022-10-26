@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FavoriteCollection;
 use App\Interfaces\FavoriteRepositoryInterface;
-use App\Interfaces\MovieRepositoryInterface;
+use App\Repositories\MovieRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -16,10 +16,12 @@ use Illuminate\Support\Facades\Cache;
 class FavoriteController extends Controller
 {
     private FavoriteRepositoryInterface $favoriteRepository;
-    private MovieRepositoryInterface $movieRepository;
+    private MovieRepository $movieRepository;
 
-    public function __construct(FavoriteRepositoryInterface $favoriteRepository, MovieRepositoryInterface $movieRepository)
+
+    public function __construct(FavoriteRepositoryInterface $favoriteRepository, MovieRepository $movieRepository)
     {
+        $this->middleware('auth:api');
         $this->favoriteRepository = $favoriteRepository;
         $this->movieRepository = $movieRepository;
     }
@@ -35,7 +37,7 @@ class FavoriteController extends Controller
 
     public function store(Request $request):JsonResponse
     {
-        $movie = $this->movieRepository->getMovieById($request->id);
+        $movie = $this->movieRepository->findById($request->id);
         $user = Auth::user();
 
         return response()->json(['data' => $this->favoriteRepository->createFavorite($movie, $user)], Response::HTTP_CREATED);
@@ -43,7 +45,7 @@ class FavoriteController extends Controller
 
     public function destroy(int $id):JsonResponse
     {
-        $movie = $this->movieRepository->getMovieById($id);
+        $movie = $this->movieRepository->findById($id);
         $user = Auth::user();
 
         return response()->json(['data' => $this->favoriteRepository->deleteFavorite($movie, $user)], Response::HTTP_OK);

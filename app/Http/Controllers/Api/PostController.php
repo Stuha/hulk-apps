@@ -6,19 +6,22 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
-use App\Interfaces\PostRepositoryInterface;
+use App\Repositories\PostRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use App\Services\HttpResponse;
 
 class PostController extends Controller
 {
 
-    private PostRepositoryInterface $postRepository;
+    private PostRepository $postRepository;
+    private HttpResponse $httpResponse;
 
-    public function __construct(PostRepositoryInterface $postRepository)
+    public function __construct(PostRepository $postRepository, HttpResponse $httpResponse)
     {
         $this->middleware('auth:api');
         $this->postRepository = $postRepository;
+        $this->httpResponse = $httpResponse;
     }
 
     public function store(StorePostRequest $request):JsonResponse
@@ -29,12 +32,15 @@ class PostController extends Controller
         $post['movie_id'] = $request->movieId;
         $post['user_id'] = $request->userId;
 
-        return response()->json(['data' => $this->postRepository->createPost($post)], Response::HTTP_CREATED);
+        $post = $this->postRepository->create($post);
+        $result = $this->httpResponse->setHttpResponseCreatedOneInstance($post);
+
+        return response()->json($result->response, $result->http_status);
     }
 
     public function show(int $id):PostResource
     {
-        $post = $this->postRepository->getPostById($id);
+        $post = $this->postRepository->findById($id);
 
         return new PostResource($post);
     }
@@ -44,15 +50,17 @@ class PostController extends Controller
         $updateDetails = [];
         $updateDetails['content'] = $request->content;
 
-        $updatedPost = $this->postRepository->updatePost($id, $updateDetails);
+        $updatedPost = $this->postRepository->update($updateDetails, $id);
 
         return new PostResource($updatedPost);
     }
 
     public function destroy(int $id):JsonResponse
     {
-        $this->postRepository->deletePost($id);
+        $this->postRepository->delete($id);
 
-        return response()->json(['item_deleted' => true], Response::HTTP_NO_CONTENT);
+        $result = $this->httpResponse->setHttpResponseItemDeleted();
+
+        return response()->json($result->response, $result->http_status);
     }
 }

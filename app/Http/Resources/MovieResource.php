@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Movie;
 use App\Http\Resources\PostCollection;
 
 class MovieResource extends JsonResource
@@ -16,8 +15,7 @@ class MovieResource extends JsonResource
      */
     public function toArray($request)
     {
-        $posts = Movie::find($this->id)->posts;
-        $postCollection = new PostCollection($posts);
+        $postCollection = new PostCollection($this->posts);
 
         return [
             'name' => $this->name,
