@@ -24,8 +24,7 @@ class Movie extends Model
         Favorite::class,
     ];
 
-    protected $guarded = [
-    ];
+    protected $guarded = [];
 
     public function sluggable(): array
     {

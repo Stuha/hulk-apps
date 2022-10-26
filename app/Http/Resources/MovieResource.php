@@ -19,6 +19,8 @@ class MovieResource extends JsonResource
 
         return [
             'name' => $this->name,
+            'director_name' => $this->director_name,
+            'year' => $this->year,
             'posts' => $postCollection->paginate(25),
         ];
     }

@@ -59,7 +59,7 @@ class MovieController extends Controller
         $updateDetails = [];
         $updateDetails['name'] = $request->name;
         $updateDetails['year'] = $request->year;
-        $updateDetails['diretor_name'] = $request->directorName;
+        $updateDetails['director_name'] = $request->director_name;
         
         $updatedMovie = $this->movieRepository->update($updateDetails, $id);
 

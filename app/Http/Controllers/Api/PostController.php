@@ -28,9 +28,9 @@ class PostController extends Controller
     {
         $post = [];
         $post['content'] = $request->content;
-        $post['parent_id'] = $request->parentId;
-        $post['movie_id'] = $request->movieId;
-        $post['user_id'] = $request->userId;
+        $post['parent_id'] = $request->parent_id;
+        $post['movie_id'] = $request->movie_id;
+        $post['user_id'] = $request->user_id;
 
         $post = $this->postRepository->create($post);
         $result = $this->httpResponse->setHttpResponseCreatedOneInstance($post);
