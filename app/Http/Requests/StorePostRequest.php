@@ -26,6 +26,7 @@ class StorePostRequest extends FormRequest
         return [
             'user_id' => 'required|int',
             'movie_id' => 'required|int',
+            'title'  => 'required|string',
             'content' => 'required|string'
         ];
     }

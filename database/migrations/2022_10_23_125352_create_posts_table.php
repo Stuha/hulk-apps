@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->integer('parent_id')->nullable();
+            $table->string('title')->index();
             $table->text('content');
+            $table->string('slug')->unique()->index();
             $table->integer('user_id');
             $table->integer('movie_id');
             $table->timestamps();

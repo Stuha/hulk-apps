@@ -38,11 +38,16 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function delete($id):void
     {
-        $model = $this->model->where('id', $id)->first()->delete();
+        $this->model->where('id', $id)->first()->delete();
     }
 
     public function findById($id):Model
     {
         return $this->model->where('id', $id)->first();
+    }
+
+    public function findBySlug(string $slug)
+    {
+        return $this->model->where('slug', $slug)->first();
     }
 }

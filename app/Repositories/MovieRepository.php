@@ -17,9 +17,4 @@ class MovieRepository extends BaseRepository
     {
         return Movie::filter()->paginate(25);
     }
-
-    public function findBySlug(string $slug)
-    {
-        return $this->model->where('slug', $slug)->first();
-    }
 }

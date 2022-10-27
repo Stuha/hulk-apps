@@ -8,7 +8,6 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
 use App\Repositories\PostRepository;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use App\Services\HttpResponse;
 
 class PostController extends Controller
@@ -27,6 +26,7 @@ class PostController extends Controller
     public function store(StorePostRequest $request):JsonResponse
     {
         $post = [];
+        $post['title'] = $request->title;
         $post['content'] = $request->content;
         $post['parent_id'] = $request->parent_id;
         $post['movie_id'] = $request->movie_id;
@@ -38,9 +38,9 @@ class PostController extends Controller
         return response()->json($result->response, $result->http_status);
     }
 
-    public function show(int $id):PostResource
+    public function show(string $slug):PostResource
     {
-        $post = $this->postRepository->findById($id);
+        $post = $this->postRepository->findBySlug($slug);
 
         return new PostResource($post);
     }
