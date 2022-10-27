@@ -31,7 +31,7 @@ class FavoriteRoutesTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
     }
 
-    public function test_store_follow_route():void
+    public function test_store_favorite_route():void
     {
         $movie = Movie::factory()->create()->toArray();
         $user = User::factory()->create();
@@ -43,7 +43,7 @@ class FavoriteRoutesTest extends TestCase
         $response->assertStatus(Response::HTTP_CREATED);
     }
 
-    public function test_delete_follow_route():void
+    public function test_delete_favorite_route():void
     {
         $user = User::factory()->create();
         $movie = Movie::factory()->create();

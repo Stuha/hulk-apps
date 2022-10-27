@@ -16,11 +16,11 @@ class PostRoutesTest extends TestCase
         $user = User::factory()->create();
         $movie = Movie::factory()->create();
         $post = Post::factory()->create(['user_id' => $user->id, 'movie_id' => $movie->id]);
-
+       
         $token = Auth::login($user);
-
-        $response = $this->getJson("api/post/$post->id", ['Authorization' => "Bearer $token"]);
-
+ 
+        $response = $this->getJson("api/post/$post->slug", ['Authorization' => "Bearer $token"]);
+       
         $response->assertStatus(Response::HTTP_OK);
     }
 
@@ -29,11 +29,16 @@ class PostRoutesTest extends TestCase
         $user = User::factory()->create();
         $movie = Movie::factory()->create();
         
-        $post = Post::factory()->create(['user_id' => $user->id, 'movie_id' => $movie->id])->toArray();
-    
-        $token = Auth::login($user);
+        $post = Post::factory()->create(['user_id' => $user->id, 'movie_id' => $movie->id]);
        
-        $response = $this->postJson('api/post', $post, ['Authorization' => "Bearer $token"]);
+        $token = Auth::login($user);
+        
+        $response = $this->postJson('api/post', [
+            'title' => $post->title,
+            'content' => 'Test Content',
+            'user_id' => $post->user_id,
+            'movie_id' =>$post->movie_id,
+        ], ['Authorization' => "Bearer $token"]);
         
         $response->assertStatus(Response::HTTP_CREATED);
     }
@@ -48,9 +53,11 @@ class PostRoutesTest extends TestCase
         
         $response = $this->putJson("api/post/$post->id", [
             'id' => $post->id,
+            'title' => $post->title,
             'content' => 'Test Content',
             'user_id' => $post->user_id,
-            'movie_id' =>$post->movie_id 
+            'movie_id' =>$post->movie_id,
+            'slug' => $post->slug 
         ], ['Authorization' => "Bearer $token"]);
     
         $response->assertStatus(Response::HTTP_OK);

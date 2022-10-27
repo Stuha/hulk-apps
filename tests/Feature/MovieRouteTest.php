@@ -38,12 +38,16 @@ class MovieRouteTest extends TestCase
 
     public function test_store_movie_route():void
     {
-        $movie = Movie::factory()->create()->toArray();
+        $movie = Movie::factory()->create();
         $user = User::factory()->create();
 
         $token = Auth::login($user);
         
-        $response = $this->postJson('api/movie', $movie, ['Authorization' => "Bearer $token"]);
+        $response = $this->postJson('api/movie', [
+            'name' => $movie->name, 
+            'director_name' => $movie->director_name, 
+            'year' => $movie->year
+        ], ['Authorization' => "Bearer $token"]);
         
         $response->assertStatus(Response::HTTP_CREATED);
     }
