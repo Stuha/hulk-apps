@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Movie;
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
@@ -54,7 +53,6 @@ class PostRoutesTest extends TestCase
             'movie_id' =>$post->movie_id 
         ], ['Authorization' => "Bearer $token"]);
     
-
         $response->assertStatus(Response::HTTP_OK);
     }
 

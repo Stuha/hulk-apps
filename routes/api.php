@@ -28,5 +28,5 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::apiResource('/movie', MovieController::class)->parameters(['movie' => 'slug']);
 Route::apiResource('/post', PostController::class)->except('index');
-Route::apiResource('/follow', FollowController::class)->except('show');
+Route::apiResource('/follow', FollowController::class)->except('show', 'update');
 Route::apiResource('/favorite', FavoriteController::class)->only('index', 'store', 'destroy');

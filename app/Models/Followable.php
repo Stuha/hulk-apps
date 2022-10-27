@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Str;
 use App\Events\Followed;
 use App\Events\Unfollowed;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use function config;
 
 /**
@@ -21,6 +23,8 @@ use function config;
  */
 class Followable extends Model
 {
+    use HasFactory;
+
     protected $guarded = [];
 
     protected $dispatchesEvents = [
