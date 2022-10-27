@@ -9,7 +9,6 @@ use App\Interfaces\FavoriteRepositoryInterface;
 use App\Repositories\MovieRepository;
 use App\Services\HttpResponse;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
@@ -20,9 +19,10 @@ class FavoriteController extends Controller
     private MovieRepository $movieRepository;
     private HttpResponse $httpResponse;
 
-    public function __construct(FavoriteRepositoryInterface $favoriteRepository, 
-                                MovieRepository $movieRepository,
-                                HttpResponse $httpResponse
+    public function __construct(
+        FavoriteRepositoryInterface $favoriteRepository, 
+        MovieRepository $movieRepository,
+        HttpResponse $httpResponse
     ){
         $this->middleware('auth:api');
         $this->favoriteRepository = $favoriteRepository;
@@ -51,10 +51,10 @@ class FavoriteController extends Controller
     }
 
     public function destroy(int $id):JsonResponse
-    {
+    {   
         $movie = $this->movieRepository->findById($id);
         $user = Auth::user();
-
+        
         $this->favoriteRepository->deleteFavorite($movie, $user);
         $result = $this->httpResponse->setHttpResponseItemDeleted();
 

@@ -49,7 +49,7 @@ trait FollowerTrait
         if (!in_array(FollowableTrait::class, class_uses($followable))) {
             throw new InvalidArgumentException('The followable model must use the Followable trait.');
         }
-        $this->followings()->delete($followable->id);
+        $this->followings()->where('followable_id', $followable->id)->delete();
     }
 
     public function followings(): HasMany

@@ -44,11 +44,4 @@ class Movie extends Model
     {
         return $this->belongsToMany(User::class);
     }
-
-    // public function scopeFilter(Builder $builder, $request)
-    // {
-    //     return (new MovieFilter($request))->filter($builder);
-    // }
-
- 
 }
