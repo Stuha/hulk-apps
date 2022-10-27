@@ -44,9 +44,9 @@ class MovieRouteTest extends TestCase
         $token = Auth::login($user);
         
         $response = $this->postJson('api/movie', [
-            'name' => $movie->name, 
+            'title' => $movie->title, 
             'director_name' => $movie->director_name, 
-            'year' => $movie->year
+            'release_year' => $movie->release_year
         ], ['Authorization' => "Bearer $token"]);
         
         $response->assertStatus(Response::HTTP_CREATED);
@@ -61,9 +61,9 @@ class MovieRouteTest extends TestCase
         
         $response = $this->putJson("api/movie/$movie->id", [
             'id' => $movie->id,
-            'name' => 'Test Name', 
+            'title' => 'Test Name', 
             'director_name' => 'Test Director', 
-            'year' => '2001'
+            'release_year' => '2001'
         ], ['Authorization' => "Bearer $token"]);
     
 

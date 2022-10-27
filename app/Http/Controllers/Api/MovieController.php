@@ -43,8 +43,8 @@ class MovieController extends Controller
     public function store(StoreMovieRequest $request):JsonResponse
     {
         $movie = [];
-        $movie['name'] = $request->name;
-        $movie['year'] = $request->year;
+        $movie['title'] = $request->title;
+        $movie['release_year'] = $request->release_year;
         $movie['director_name'] = $request->director_name;
 
         $movie = $this->movieRepository->create($movie);
@@ -57,8 +57,8 @@ class MovieController extends Controller
     public function update(UpdateMovieRequest $request, int $id):MovieResource
     {
         $updateDetails = [];
-        $updateDetails['name'] = $request->name;
-        $updateDetails['year'] = $request->year;
+        $updateDetails['title'] = $request->title;
+        $updateDetails['release_year'] = $request->release_year;
         $updateDetails['director_name'] = $request->director_name;
         
         $updatedMovie = $this->movieRepository->update($updateDetails, $id);

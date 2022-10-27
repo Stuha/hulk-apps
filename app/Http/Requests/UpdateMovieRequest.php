@@ -25,9 +25,9 @@ class UpdateMovieRequest extends FormRequest
     {
         return [
             'id' => 'int|required',
-            'name' => 'string|required',
+            'title' => 'string|required',
             'director_name' => 'string|required',
-            'year'  => 'string|required'
+            'release_year'  => 'string|required'
         ];
     }
 }
